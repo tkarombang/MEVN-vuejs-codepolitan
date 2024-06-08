@@ -1,8 +1,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
-import { addToCart } from "./js/CartStore";
+import { addToCart, style, sliderState } from "../../public/js/CartStore";
 
-const maxPrice = ref(null);
+const maxPrice = ref(0);
+const updateMaxPrice = (event) => {
+  maxPrice.value = Number(event.target.value);
+  console.log(maxPrice.value);
+};
 let products = ref(null);
 onMounted(() => {
   fetch("https://hplussport.com/api/products/oder/price")
@@ -11,18 +15,19 @@ onMounted(() => {
       products.value = data;
     });
 });
-// export const cart = ref([]);
 </script>
 <template>
   <div class="container">
-    <div class="mb-3">
-      <!-- <p>{{ cart.length }}</p> -->
-      <label class="form-label">Price of the Products</label>
-      <input type="number" class="form-control" v-model="maxPrice" />
-      <input type="range" class="form-range" min="0" max="200" v-model="maxPrice" />
+    <button class="btn btn-primary mt-2" @click="style.sliderStatus = !style.sliderStatus"><i class="bi bi-currency-dollar"></i></button><b><== range the price</b>
+    <!-- <transition name="fade"> -->
+    <div class="mb-3 d-flex align-items-center" :class="sliderState">
+      <label :class="style.label">MAX</label>
+      <input type="number" class="form-control mx-2 h-25 m-2" :style="{ width: style.inputWidth + 'px', 'text-align': 'center' }" :value="maxPrice" min="0" max="100" @input="updateMaxPrice" />
+      <input type="range" class="form-range" :value="maxPrice" min="0" max="100" @input="updateMaxPrice" />
     </div>
+    <!-- </transition> -->
     <div v-for="product in products" class="container">
-      <div v-if="product.price > maxPrice" class="row justify-content-md-center align-items-center">
+      <div v-if="product.price > maxPrice" class="row justify-content-md-center align-items-center mt-2">
         <div class="col-1">
           <button class="btn btn-primary" @click="addToCart(product)">+</button>
         </div>
