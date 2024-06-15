@@ -1,8 +1,10 @@
 <script setup>
-import { reactive, ref } from "vue";
-
+import { ref } from "vue";
 import ComponenHeader from "./components/ComponenHeader.vue";
 import ComponenData from "./components/ComponenData.vue";
+import { cart } from "../public/js/CartStore";
+
+const cartTitle = ref("Cart is Empty");
 </script>
 
 <template>
@@ -17,10 +19,20 @@ import ComponenData from "./components/ComponenData.vue";
   <!-- OffCanvas -->
   <div class="offcanvas offcanvas-end" data-bs-theme="dark" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasRightLabel">Cart is Empty</h5>
+      <div v-if="cart.length == 0">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">{{ cartTitle }}</h5>
+      </div>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">...</div>
+    <div class="offcanvas-body">
+      <div v-for="(item, index) in cart" :key="index" class="cart-item">
+        <div class="text-nowrap text-right">
+          <span class="badge badge-pill badge-warning align-text-top mr-1">{{ item.qty }} </span>
+          {{ item.name }}
+          <b>${{ item.price }}</b>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

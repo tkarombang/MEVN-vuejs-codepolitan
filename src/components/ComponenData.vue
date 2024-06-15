@@ -5,7 +5,6 @@ import { addToCart, style, sliderState } from "../../public/js/CartStore";
 const maxPrice = ref(0);
 const updateMaxPrice = (event) => {
   maxPrice.value = Number(event.target.value);
-  console.log(maxPrice.value);
 };
 let products = ref(null);
 onMounted(() => {
@@ -15,10 +14,21 @@ onMounted(() => {
       products.value = data;
     });
 });
+const sortPriceAscending = () => {
+  products.value.sort((a, b) => a.price - b.price);
+};
+
+const sortPriceDescending = () => {
+  products.value.sort((a, b) => b.price - a.price);
+};
 </script>
 <template>
   <div class="container">
-    <button class="btn btn-primary mt-2" @click="style.sliderStatus = !style.sliderStatus"><i class="bi bi-currency-dollar"></i></button><b><== range the price</b>
+    <div class="container">
+      <button class="btn btn-primary m-2" @click="style.sliderStatus = !style.sliderStatus"><i class="bi bi-currency-dollar"></i></button><b><i class="bi bi-arrow-left"></i> SLIDER PRICE</b>
+      <button @click="sortPriceAscending" class="btn btn-success m-2">Sort Price Ascending</button>
+      <button @click="sortPriceDescending" class="btn btn-danger m-2">Sort Price Descending</button>
+    </div>
     <transition name="fade" enter-active-class="animate__animated animate__flipInX" leave-to-class="animate__flipOutX">
       <div v-if="style.sliderStatus">
         <div class="mb-3 d-flex align-items-center" :class="sliderState">
