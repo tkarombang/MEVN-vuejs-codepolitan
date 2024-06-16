@@ -25,11 +25,11 @@ const cartTitle = ref("Cart is Empty");
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <div v-for="(item, index) in cart" :key="index" class="cart-item">
+      <div v-for="(item, index) in cart" :key="index.id" :data-index="index" class="cart-item">
         <div class="text-nowrap text-right">
           <span class="badge badge-pill badge-warning align-text-top mr-1">{{ item.qty }} </span>
-          {{ item.name }}
-          <b>${{ item.price }}</b>
+          {{ item.product.name }}
+          <b>${{ item.product.price }}</b>
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ const sortPriceDescending = () => {
         <TransitionGroup name="fade" tag="div" enter-active-class="animate__animated animate__fadeInLeft" leave-from-class="animate__animated animate__slideOutRight animate__delay-2s">
           <div v-if="product.price >= maxPrice" class="row justify-content-md-center align-items-center mt-2" :data-index="index">
             <div class="col-1">
-              <button class="btn btn-primary" @click="addToCart(product)">+</button>
+              <button class="btn btn-primary" @click="addToCart(product, 1)">+</button>
             </div>
             <div class="col-md-3">
               <img :src="product.image" alt="" class="img-fluid" />
