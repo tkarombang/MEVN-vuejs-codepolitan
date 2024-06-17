@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import ComponenHeader from "./components/ComponenHeader.vue";
 import ComponenData from "./components/ComponenData.vue";
-import { cart } from "../public/js/CartStore";
+import { cart, removeFromCart, totalCartPrice } from "../public/js/CartStore";
 
 const cartTitle = ref("Cart is Empty");
 </script>
@@ -27,11 +27,13 @@ const cartTitle = ref("Cart is Empty");
     <div class="offcanvas-body">
       <div v-for="(item, index) in cart" :key="index.id" :data-index="index" class="cart-item">
         <div class="text-nowrap text-right">
-          <span class="badge badge-pill badge-warning align-text-top mr-1">{{ item.qty }} </span>
+          <span class="badge rounded-pill text-bg-warning align-text-top mr-1">{{ item.qty }} </span>
           {{ item.product.name }}
-          <b>${{ item.product.price }}</b>
+          <b>${{ item.totalPrice }}</b>
+          <button @click="removeFromCart(item.product, 1)" type="button" class="btn btn-sm btn-outline-info m-1">Delete</button>
         </div>
       </div>
+      <b>Total Price : {{ totalCartPrice }}</b>
     </div>
   </div>
 </template>

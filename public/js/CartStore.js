@@ -20,23 +20,33 @@ export const sliderState = computed(() => {
 // }
 
 const addToCart = (product, qty = 1) => {
-  console.log(cart.value);
-  console.log(product.id);
-
   const itemIndex = cart.value.findIndex((item) => item.product.id === product.id);
+
   if (itemIndex !== -1) {
     cart.value[itemIndex].qty += qty;
+    cart.value[itemIndex].totalPrice = (cart.value[itemIndex].product.price * cart.value[itemIndex].qty).toFixed(2);
   } else {
-    cart.value.push({ product, qty });
+    cart.value.push({ product, qty, totalPrice: product.price * qty });
   }
-  console.log(itemIndex);
-
-  // const itemIndex = cart.value.findIndex((item) => item.product.id === product.id);
-  // if (itemIndex !== -1) {
-  //   cart.value[itemIndex].qty += qty;
-  // } else {
-  //   cart.value.push({ product, qty });
-  // }
 };
 
-export { addToCart, cart };
+const totalCartPrice = computed(() => {
+  return cart.value.reduce((acc, item) => acc + parseFloat(item.totalPrice), 0).toFixed(2);
+});
+const totalQuantity = computed(() => {
+  return cart.value.reduce((acc, item) => acc + item.qty, 0);
+});
+const removeFromCart = (product, qty = 1) => {
+  const itemIndex = cart.value.findIndex((item) => item.product.id === product.id);
+
+  if (itemIndex !== -1) {
+    if (cart.value[itemIndex].qty > qty) {
+      cart.value[itemIndex].qty -= qty;
+      cart.value[itemIndex].totalPrice = (cart.value[itemIndex].product.price * cart.value[itemIndex].qty).toFixed(2);
+    } else {
+      cart.value.splice(itemIndex, 1);
+    }
+  }
+};
+
+export { addToCart, cart, totalCartPrice, totalQuantity, removeFromCart };
