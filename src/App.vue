@@ -24,11 +24,11 @@ const cartTitle = ref("Cart is Empty");
       </div>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body" style="font-size: smaller">
       <div v-for="(item, index) in cart" :key="index.id" :data-index="index" class="cart-item">
         <div class="text-nowrap text-right">
           <span class="badge rounded-pill text-bg-warning align-text-top mr-1">{{ item.qty }} </span>
-          {{ item.product.name }}
+          <span class="fw-light m-1">{{ item.product.name }}</span>
           <b>${{ item.totalPrice }}</b>
           <button @click="removeFromCart(item.product, 1)" type="button" class="btn btn-sm btn-outline-info m-1">Delete</button>
         </div>

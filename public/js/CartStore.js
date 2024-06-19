@@ -40,6 +40,8 @@ const removeFromCart = (product, qty = 1) => {
   const itemIndex = cart.value.findIndex((item) => item.product.id === product.id);
 
   if (itemIndex !== -1) {
+    console.log(cart.value[itemIndex].qty);
+    console.log(qty);
     if (cart.value[itemIndex].qty > qty) {
       cart.value[itemIndex].qty -= qty;
       cart.value[itemIndex].totalPrice = (cart.value[itemIndex].product.price * cart.value[itemIndex].qty).toFixed(2);
