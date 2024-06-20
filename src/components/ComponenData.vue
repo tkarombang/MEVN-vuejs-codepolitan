@@ -1,12 +1,8 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { addToCart, style, sliderState } from "../../public/js/CartStore";
+import { onMounted } from "vue";
+import { addToCart, products, maxPrice } from "../../public/js/CartStore";
+import ComponeSlider from "../components/ComponenSlider.vue";
 
-const maxPrice = ref(0);
-const updateMaxPrice = (event) => {
-  maxPrice.value = Number(event.target.value);
-};
-let products = ref(null);
 onMounted(() => {
   fetch("https://hplussport.com/api/products/oder/price")
     .then((response) => response.json())
@@ -14,29 +10,11 @@ onMounted(() => {
       products.value = data;
     });
 });
-const sortPriceAscending = () => {
-  products.value.sort((a, b) => a.price - b.price);
-};
-
-const sortPriceDescending = () => {
-  products.value.sort((a, b) => b.price - a.price);
-};
 </script>
 <template>
   <div class="container">
-    <div class="container">
-      <button class="btn btn-primary m-2" @click="style.sliderStatus = !style.sliderStatus"><i class="bi bi-currency-dollar"></i></button><b><i class="bi bi-arrow-left"></i> SLIDER PRICE</b>
-      <button @click="sortPriceAscending" class="btn btn-success m-2">Sort Price Ascending</button>
-      <button @click="sortPriceDescending" class="btn btn-danger m-2">Sort Price Descending</button>
-    </div>
     <transition name="fade" enter-active-class="animate__animated animate__flipInX" leave-to-class="animate__flipOutX">
-      <div v-if="style.sliderStatus">
-        <div class="mb-3 d-flex align-items-center" :class="sliderState">
-          <label :class="style.label">MAX</label>
-          <input type="number" class="form-control mx-2 h-25 m-2" :style="{ width: style.inputWidth + 'px', 'text-align': 'center' }" :value="maxPrice" min="0" max="100" @input="updateMaxPrice" />
-          <input type="range" class="form-range" :value="maxPrice" min="0" max="100" @input="updateMaxPrice" />
-        </div>
-      </div>
+      <ComponeSlider />
     </transition>
     <transition-group name="fade" tag="div">
       <div v-for="(product, index) in products" :key="product.id" class="container">
