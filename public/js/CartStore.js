@@ -35,6 +35,7 @@ const totalCartPrice = computed(() => {
 const totalQuantity = computed(() => {
   return cart.value.reduce((acc, item) => acc + item.qty, 0);
 });
+
 const removeFromCart = (product, qty = 1) => {
   const itemIndex = cart.value.findIndex((item) => item.product.id === product.id);
 
